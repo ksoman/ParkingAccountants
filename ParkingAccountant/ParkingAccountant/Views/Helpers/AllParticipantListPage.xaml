@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParkingAccountant.Views.AllParticipantListPage"
+             Title="Select Participant"
+             >
+        <ContentPage.ToolbarItems>
+            <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked">
+                <ToolbarItem.Icon>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="UWP" Value="cancel.png"/>
+                    </OnPlatform>
+                </ToolbarItem.Icon>
+            </ToolbarItem>
+            <ToolbarItem Text="Save" Clicked="Save_Clicked">
+                <ToolbarItem.Icon>
+                    <OnPlatform x:TypeArguments="FileImageSource">
+                        <On Platform="UWP" Value="save.png"/>
+                    </OnPlatform>
+                </ToolbarItem.Icon>
+            </ToolbarItem>
+        </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="AllParticipants"
+                ItemsSource="{Binding Members}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Label Text="{Binding Member.Name}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" />
+                                <Switch IsToggled="{Binding Selected}" HorizontalOptions="End" Toggled="Switch_Toggled" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

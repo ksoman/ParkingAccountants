@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParkingAccountant.Views.NewPlanPage"
+             Title="New Plan">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="cancel.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Save" Clicked="Save_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="save.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Description" FontSize="Medium" />
+            <Entry Text="{Binding Plan.Description}" FontSize="Small" />
+            <Label Text="Date" FontSize="Medium" />
+            <DatePicker Date="{Binding Plan.Date}" FontSize="Small" Margin="0" />
+            <Label Text="Owner" FontSize="Medium" />
+            <!--Picker to choose from list of members who is the owner-->
+            <Picker x:Name="AllMembersPicker"  
+                    Title="Select Owner"
+                    ItemsSource="{Binding AllMembers}"
+			        ItemDisplayBinding="{Binding Name}"
+                    SelectedIndexChanged="AllMembersPicker_SelectedIndexChanged"
+                    />
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Participants" FontSize="Medium" />
+                <Button Text="Add" x:Name="Add_Participant" Clicked="Add_Participant_Clicked"/>
+            </StackLayout>
+            <ListView x:Name="ParticipentListView"
+                      BackgroundColor="Red"
+                ItemsSource="{Binding Plan.Participant.Participants}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Name}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" />
+                                <Entry Text="{Binding Amount}" 
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
