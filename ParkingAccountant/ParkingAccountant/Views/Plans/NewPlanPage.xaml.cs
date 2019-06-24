@@ -1,5 +1,6 @@
 ﻿using ParkingAccountant.Models;
 using ParkingAccountant.Services;
+using ParkingAccountant.Views.ShoppingList;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -57,7 +58,11 @@ namespace ParkingAccountant.Views
             if (Plan.Participant == null)
             {
                 Plan.Participant = new Participant() { Participants = new ObservableCollection<Member>() };
-
+                
+            }
+            if (Plan.ShoppingListItem == null)
+            {
+                Plan.ShoppingListItem = new ObservableCollection<ShoppingItem>();
             }
             var members = await memberDatas.GetDatasAsync();
             foreach (var item in members)
@@ -84,6 +89,15 @@ namespace ParkingAccountant.Views
                 var newItem = item as Plan;
                 Plan = newItem;
             });
+
+            MessagingCenter.Subscribe<NewShoppingList, ObservableCollection<ShoppingItem>>(this, "AddShoppingList", async (obj, item) =>
+            {
+                var newItem = item as ObservableCollection<ShoppingItem>;
+                foreach (var shoppingItem in newItem)
+                {
+                    Plan.ShoppingListItem.Add(shoppingItem);
+                }
+            });
         }
 
         async void Save_Clicked(object sender, EventArgs e)
@@ -100,9 +114,9 @@ namespace ParkingAccountant.Views
         private void Add_Participant_Clicked(object sender, EventArgs e)
         {
             /*Plan.Participant.Participants.Add(new Member { Name = "member" + Plan.Participant.Participants.Count });
-             AllMembers.Add(new Member { Name = "member" + Plan.Participant.Participants.Count }); */
+             AllMembers.Add(new Member { Name = "member" + Plan.Participant.Participants.Count }); 
 
-            //go to page where we can select all participent.
+            //go to page where we can select all participent.*/
             Navigation.PushAsync(new AllParticipantListPage(Plan,AllMembers));
 
         }
@@ -112,6 +126,12 @@ namespace ParkingAccountant.Views
             var picker = sender as Picker;
             var owner = picker.SelectedItem as Member;
             Plan.Participant.Owner = owner;
+        }
+
+        private void Add_ShoppingItem_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new NewShoppingList());
+
         }
     }
 }

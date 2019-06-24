@@ -15,6 +15,8 @@ namespace ParkingAccountant.Models
         [Ignore]
         //Related to the Member who owns the Plan
         public Participant Participant { get; set; }
+        [Ignore]
+        public System.Collections.ObjectModel.ObservableCollection<ShoppingItem> ShoppingListItem { get; set; }
          
     }
 }

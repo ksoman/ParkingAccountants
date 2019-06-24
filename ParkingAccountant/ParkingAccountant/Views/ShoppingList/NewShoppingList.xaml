@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParkingAccountant.Views.ShoppingList.NewShoppingList">
+    <ContentPage.Content>
+        <StackLayout>
+         
+            <StackLayout Orientation="Horizontal">
+                <Entry Placeholder="ItemName" x:Name="ItemName" Text="{Binding ShoppingItem.ItemName}" />
+                <Entry x:Name="AmountCalculator" Placeholder="Amount-OpenCalculator" Focused="AmountCalculator_Focused" Keyboard="Plain" Text="{Binding ShoppingItem.ItemAmount}"/>
+                <Button x:Name="AddItem" Text="Add" Clicked="AddItem_Clicked"/>
+            </StackLayout>
+
+            <Grid  >
+                <Label Text="Item" Grid.Column="0" Grid.Row="0"/>
+                <Label Text="Amount"  Grid.Column="1" Grid.Row="0"/>
+            </Grid>
+
+            
+            <ListView x:Name="ShoppingItemListView"
+                      BackgroundColor="Red"
+                ItemsSource="{Binding ShoppingItemList}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement"
+                >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10" >
+                                <Label Text="{Binding ItemName}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" Grid.Column="0" Grid.Row="0" />
+                                <Label Text="{Binding ItemAmount}" 
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" 
+                                 Grid.Column="1" Grid.Row="0" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

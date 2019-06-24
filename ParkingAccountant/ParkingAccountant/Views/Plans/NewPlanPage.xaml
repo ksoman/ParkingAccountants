@@ -22,48 +22,93 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout Spacing="20" Padding="15">
-            <Label Text="Description" FontSize="Medium" />
-            <Entry Text="{Binding Plan.Description}" FontSize="Small" />
-            <Label Text="Date" FontSize="Medium" />
-            <DatePicker Date="{Binding Plan.Date}" FontSize="Small" Margin="0" />
-            <Label Text="Owner" FontSize="Medium" />
-            <!--Picker to choose from list of members who is the owner-->
-            <Picker x:Name="AllMembersPicker"  
+        <ScrollView>
+            <StackLayout Spacing="20" Padding="15">
+                <Label Text="Description" FontSize="Medium" />
+                <Entry Text="{Binding Plan.Description}" FontSize="Small" />
+                <Label Text="Date" FontSize="Medium" />
+                <DatePicker Date="{Binding Plan.Date}" FontSize="Small" Margin="0" />
+                <Label Text="Owner" FontSize="Medium" />
+                <!--Picker to choose from list of members who is the owner-->
+                <Picker x:Name="AllMembersPicker"  
                     Title="Select Owner"
                     ItemsSource="{Binding AllMembers}"
 			        ItemDisplayBinding="{Binding Name}"
                     SelectedIndexChanged="AllMembersPicker_SelectedIndexChanged"
                     />
 
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Participants" FontSize="Medium" />
-                <Button Text="Add" x:Name="Add_Participant" Clicked="Add_Participant_Clicked"/>
-            </StackLayout>
-            <ListView x:Name="ParticipentListView"
-                      BackgroundColor="Red"
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Shopping List" FontSize="Medium" />
+                    <Button Text="Add" x:Name="Add_ShoppingItem" Clicked="Add_ShoppingItem_Clicked"/>
+                </StackLayout>
+
+                <!--List of shopping item related to plan-->
+                <Grid BackgroundColor="Aqua">
+                    <Label Text="Item" Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="Amount"  Grid.Column="1" Grid.Row="0"/>
+                </Grid>
+
+
+                <ListView x:Name="ShoppingItemListView"
+                      BackgroundColor="Blue"
+                          HeightRequest="100"
+                ItemsSource="{Binding Plan.ShoppingListItem}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement"
+                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10,0,10,10" >
+                                    <Label Text="{Binding ItemName}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" Grid.Column="0" Grid.Row="0" />
+                                    <Label Text="{Binding ItemAmount}" 
+                                Style="{DynamicResource ListItemDetailTextStyle}"
+                                FontSize="13" 
+                                 Grid.Column="1" Grid.Row="0" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Participants" FontSize="Medium" />
+                    <Button Text="Add" x:Name="Add_Participant" Clicked="Add_Participant_Clicked"/>
+                </StackLayout>
+
+                <!--List of participants in the plan-->
+                <ListView x:Name="ParticipentListView"
+                      BackgroundColor="Red" 
+                          HeightRequest="100"
                 ItemsSource="{Binding Plan.Participant.Participants}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
                 CachingStrategy="RecycleElement"
                 >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding Name}" 
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding Name}" 
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" />
-                                <Entry Text="{Binding Amount}" 
+                                    <Entry Text="{Binding Amount}" 
                                 Style="{DynamicResource ListItemDetailTextStyle}"
                                 FontSize="13" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
     </ContentPage.Content>
 </ContentPage>
